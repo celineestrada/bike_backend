@@ -1,3 +1,10 @@
-from django.contrib import admin
+from django.contrib.gis.admin import OSMGeoAdmin
+from .models import Hospital
 
-# Register your models here.
+@admin.register(Hospital)
+class HospitalAdmin(OSMGeoAdmin):
+    list_display = ('name', 'location')
+
+@admin.register(StreetLights)
+class SteetLightAdmin(OSMGeoAdmin):
+    list_display = ('name', 'location')
