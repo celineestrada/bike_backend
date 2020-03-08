@@ -58,6 +58,7 @@ Install MySQL and MySQLClient (use pip3 though which is already installed with t
 Half of the fix for Error-1: https://stackoverflow.com/questions/12218229/my-config-h-file-not-found-when-install-mysql-python-on-osx-10-8
 This kinda helped for Error-1: https://stackoverflow.com/questions/33717861/error-loading-mysqldb-module-with-django-on-os-x and https://stackoverflow.com/questions/25459386/mac-os-x-environmenterror-mysql-config-not-found
 Edit your .bash_profile: https://natelandau.com/my-mac-osx-bash_profile/
+https://simpleisbetterthancomplex.com/series/2017/09/04/a-complete-beginners-guide-to-django-part-1.html
 
 
 ## Errors Found
