@@ -16,7 +16,7 @@ To activate your virtual enviornment: source env/bin/activate
 
 To fully use all features of GeoDjango, install the following open-source geospatial libraries:
 1. GEOS (Geometry Engine Open Source) - C++ port of the Java Topology Suite that implements the OCG Simple Feature for SQL Specification
-2. GDAL (Deospatial Data Abstraction Library) - an opne-source library for working with raster and vector geospatial data formats
+2. GDAL (Deospatial Data Abstraction Library) - an open-source library for working with raster and vector geospatial data formats
 3. PROJ.4 (Cartographic Projects library) - an open-source GIS library for easily working with spatial reference systems and projections
 4. GeoIP - A library that helps users find geographical information based on an IP address.
 
