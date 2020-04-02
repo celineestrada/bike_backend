@@ -1,7 +1,7 @@
 # Define entities of the Web app.
 # Models are translated into database tables automatically
-from django.db import models
-# from django.contrib.gis.db import models
+from django.contrib.gis.db import models
+from django.contrib.gis.goes import Point
 
 # Create your models here.
 class AccidentPoint(models.Model):
@@ -14,8 +14,18 @@ class AccidentPoint(models.Model):
     xstreet2 = models.CharField(max_length=50)
     x_cord = models.DecimalField(max_digits=10)
     y_cord = models.DecimalField(max_digits=10)
-    latitude = models.DecimalField(max_digits=20)
-    longitude = models.DecimalField(max_digits=20)
+    point = models.PointField(default='POINT(0 0', srid=4236)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = model.DateTimeField(auto_now=True)
+
+    # Rather than storing lat and long directly into the database, store it in properties
+    # This is a property decorator to access it without calling a function
+    @property
+    def longitude(self):
+        return self.point[0]
+
+    def latitude(self):
+        return self.point[1]
 
 class Hospital(models.Model):
     uniqueId = models.TextField(unique=True)
@@ -25,8 +35,12 @@ class Hospital(models.Model):
     neighborhood = models.CharField(max_length=64)
     x_cord = models.DecimalField(max_digits=10)
     y_cord = models.DecimalField(max_digits=10)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = model.DateTimeField(auto_now=True)
 
 class StreetLight(models.Model):
     uniqueId = models.TextField(unique=True)
     x_cord = models.DecimalField(max_digits=10)
     y_cord = models.DecimalField(max_digits=10)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = model.DateTimeField(auto_now=True)
