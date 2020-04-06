@@ -67,6 +67,7 @@ Stage (aka add/flag for a commit) all changes you have made: git add .
 Stage (aka add/flag for a commit) one change you have made: git add <file_name>
 Make a commit: git commit -m "<message>"
 Push your commits: git push
+
 ## Errors Found
 ---
 1. “my_config.h” file not found when installed mysql-python on osx 10.8

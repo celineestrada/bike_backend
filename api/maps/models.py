@@ -16,7 +16,7 @@ class AccidentPoint(models.Model):
     y_cord = models.DecimalField(max_digits=10)
     point = models.PointField(default='POINT(0 0', srid=4236)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = model.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     # Rather than storing lat and long directly into the database, store it in properties
     # This is a property decorator to access it without calling a function
