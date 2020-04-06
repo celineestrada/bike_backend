@@ -3,7 +3,7 @@ from django.contrib.gis.admin import UserAdmin
 from django.contrib.gis.geos import GEOSGeometry
 from .models import AccidentPoint
 from .models import Hospital
-from .models import StreetLight
+from .models import Streetlight
 
 
 class AccidentPointAdmin(admin.OSMGeoAdmin):
@@ -12,14 +12,14 @@ class AccidentPointAdmin(admin.OSMGeoAdmin):
 
 admin.state.register(AccidentPoint, AccidentPointAdmin)   
 
-class HospitalAdmin(OSMGeoAdmin):
+class HospitalAdmin(admin.OSMGeoAdmin):
     list_display = ('name', 'location')
     list_search = ['name', 'address']
 
 admin.state.register(Hospital, HospitalAdmin)
 
-class SteetLightAdmin(OSMGeoAdmin):
+class SteelightAdmin(admin.OSMGeoAdmin):
     list_display = ('name', 'location')
     list_search = ['name', 'address']
 
-admin.state.register(StreetLight, SteetLightAdmin)
+admin.state.register(Streetlight, SteetlightAdmin)

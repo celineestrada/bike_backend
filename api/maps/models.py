@@ -2,6 +2,7 @@
 # Models are translated into database tables automatically
 from django.contrib.gis.db import models
 from django.contrib.gis.goes import Point
+from datetime import datetime
 
 # Create your models here.
 class AccidentPoint(models.Model):
@@ -36,11 +37,11 @@ class Hospital(models.Model):
     x_cord = models.DecimalField(max_digits=10)
     y_cord = models.DecimalField(max_digits=10)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = model.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-class StreetLight(models.Model):
+class Streetlight(models.Model):
     uniqueId = models.TextField(unique=True)
     x_cord = models.DecimalField(max_digits=10)
     y_cord = models.DecimalField(max_digits=10)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = model.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)

@@ -14,9 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.urls import path
+from django.urls import url
 
 from myapp import views
 
 urlpatterns = [
-    path('', views.Home.as_view())
+    # path('', views.Home.as_view()),
+    url(r'^accident-points/?$', accidentPoint.AccidentPointList.asView(), name='accident-point-list'),
+    url(r'^accident-points/(?P<pk>[0-9]+)/?$', accidentPoint.AccidentPointDetail.as_view(), name='accident-point-detail'),
+    url(r'^map/P<zoom>[0-9]+)/(?P<x>[0-9]+)/(?P<y>[0-9]+)/?$',
+        accidentPoint.AccidentPointMap.as_view()),
+        name='accident-point-map')
 ]
