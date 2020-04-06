@@ -61,8 +61,12 @@ Edit your .bash_profile: https://natelandau.com/my-mac-osx-bash_profile/
 https://simpleisbetterthancomplex.com/series/2017/09/04/a-complete-beginners-guide-to-django-part-1.html
 
 ## Git
+Check the status: git status
 Create a new branch: git checkout -b <name_of_branch>
-
+Stage (aka add/flag for a commit) all changes you have made: git add .
+Stage (aka add/flag for a commit) one change you have made: git add <file_name>
+Make a commit: git commit -m "<message>"
+Push your commits: git push
 ## Errors Found
 ---
 1. “my_config.h” file not found when installed mysql-python on osx 10.8

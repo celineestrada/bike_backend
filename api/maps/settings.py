@@ -48,7 +48,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-ROOT_URLCONF = 'bike_backend.urls'
+ROOT_URLCONF = 'maps.urls'
 
 TEMPLATES = [
     {

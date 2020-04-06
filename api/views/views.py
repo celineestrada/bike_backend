@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.views import generic
 from django.contrib.gis.geos import fromstr
 from django.contrib.gis.db.models.functions import Distance
-from .models import Hospital
+from ..maps/models import Hospital
 
 # Temporarily will have to hardcode a user_location variable with lon and lat
 longitude = -80.191788
