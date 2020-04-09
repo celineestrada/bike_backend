@@ -1,8 +1,8 @@
 from rest_framework.serializers import ModelSerializer
-from api.model import AccidentPoint
+from maps.models import AccidentPoint
+
 
 class AccidentPointSerializer(ModelSerializer):
-
     class Meta:
         model = AccidentPoint
         fields = (

@@ -1,8 +1,8 @@
 from rest_framework.serializers import ModelSerializer
-from api.model import Hospital
+from maps.models import Hospital
+
 
 class HospitalSerializer(ModelSerializer):
-
     class Meta:
         model = Hospital
         fields = (

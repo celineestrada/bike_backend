@@ -33,8 +33,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'markdown_deux',
+    'django.contrib.staticfiles'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -76,8 +75,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'django_db',
-	'USER': 'root',
-	'PASSWORD': 'Beignet5'
+	    'USER': 'root',
+	    'PASSWORD': 'Beignet5'
     }
 }
 

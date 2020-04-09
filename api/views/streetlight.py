@@ -1,15 +1,13 @@
-from django.conf import settings
-from rest_framework import status, generics, mixins
+from rest_framework import generics
 from rest_framework.response import Response
 
-form api.map.cluster import MapClusterer
-from api.models import Streetlight
-from api.serializers.streetlight import StreetlightSerializer
+from maps.models import Streetlight
+from serializers.streetlight import StreetlightSerializer
 
-from datetime import datetime
+
+# from api.map.cluster import MapClusterer
 
 class StreetlightList(generics.ListCreateAPIView):
-
     queryset = Streetlight.objects.all()
     serializer_class = StreetlightSerializer
 
@@ -17,15 +15,16 @@ class StreetlightList(generics.ListCreateAPIView):
         self.serializer_class = StreetlightSerializer
         return super(StreetlightList, self).list(request)
 
-class StreetlightDetail(generics.RetrieveUpdateDestroyAPIView):
 
+class StreetlightDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Streetlight.objects.all()
     serializer_class = StreetlightSerializer
 
     def retrieve(self, request, pk):
         queryset = self.get_objects()
-        serializer = StreetlightSerializer(queryset, many=false)
+        serializer = StreetlightSerializer(queryset, many=False)
         return Response(serializer.data)
+
 
 class StreetlightMap(generics.ListAPIView):
 

@@ -1,8 +1,8 @@
 from rest_framework.serializers import ModelSerializer
-from api.model import Streetlight
+from maps.models import Streetlight
+
 
 class StreetlightSerializer(ModelSerializer):
-
     class Meta:
         model = Streetlight
         fields = (

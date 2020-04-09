@@ -1,15 +1,14 @@
-from django.conf import settings
-from rest_framework import status, generics, mixins
+from rest_framework import generics
 from rest_framework.response import Response
 
-from api.map.cluster import MapClusterer
-from api.models import Hospital
-from api.serializers.hospital import HospitalSerializer
+from maps.models import Hospital
+from serializers.hospital import HospitalSerializer
+# from api.map.cluster import MapClusterer
 
 from datetime import datetime
 
-class HospitalList(generics.ListCreateAPIView):
 
+class HospitalList(generics.ListCreateAPIView):
     queryset = Hospital.objects.all()
     serializer_class = HospitalSerializer
 
@@ -17,15 +16,16 @@ class HospitalList(generics.ListCreateAPIView):
         self.serializer_class = HospitalSerializer
         return super(HospitalList, self).list(request)
 
-class HospitalDetail(generics.RetrieveUpdateDestroyAPIView):
 
+class HospitalDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Hospital.objects.all()
     serializer_class = HospitalSerializer
 
     def retrieve(self, request, pk):
         queryset = self.get_objects()
-        serializer = HospitalSerializer(queryset, many=false)
+        serializer = HospitalSerializer(queryset, many=False)
         return Response(serializer.data)
+
 
 class HospitalMap(generics.ListAPIView):
 

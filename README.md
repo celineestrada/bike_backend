@@ -71,3 +71,7 @@ Push your commits: git push
 ## Errors Found
 ---
 1. “my_config.h” file not found when installed mysql-python on osx 10.8
+
+## Set Up
+1. brew install python3 (this is to get pip3)
+2. python -m pip install mysqlclient

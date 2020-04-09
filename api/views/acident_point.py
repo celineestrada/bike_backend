@@ -1,15 +1,13 @@
-from django.conf import settings
-from rest_framework import status, generics, mixins
-from rest_framework.response import response
+from rest_framework import generics
+from rest_framework.response import Response
 
-from api.map.cluser import MapClusterer
-from api.models import AccidentPoint
-from api.serializers.accident_point imoprt AccidentPointSerializer
+from maps.models import AccidentPoint
+from serializers.accident_point import AccidentPointSerializer
 
-from datetime import datetime
+# from api.map.cluser import MapClusterer
+
 
 class AccidentPointList(generics.ListCreateAPIView):
-
     queryset = AccidentPoint.objects.all()
     serializer_class = AccidentPointSerializer
 
@@ -17,15 +15,16 @@ class AccidentPointList(generics.ListCreateAPIView):
         self.serializer_class = AccidentPointSerializer
         return super(AccidentPointList, self).list(request)
 
-class AccidentPointDetail(generics.RetrieveUpdateDestroyAPIView):
 
+class AccidentPointDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = AccidentPoint.objects.all()
     serializer_class = AccidentPointSerializer
 
     def retrieve(self, request, pk):
         queryset = self.get_objects()
-        serializer = AccidentPointSerializer(queryset, many=false)
+        serializer = AccidentPointSerializer(queryset, many=False)
         return Response(serializer.data)
+
 
 class AccidentPointMap(generics.ListAPIView):
 
