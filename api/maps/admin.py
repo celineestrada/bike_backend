@@ -1,6 +1,4 @@
 from django.contrib.gis import admin
-from django.contrib.gis.geos import GEOSGeometry
-from django.contrib.gis.admin import UserAdmin
 
 from .models import AccidentPoint
 from .models import Hospital
