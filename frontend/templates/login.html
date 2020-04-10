@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+    html {
+height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  background-color: white;
+  color: black;
+}
+
+#main-holder {
+  width: 60%;
+  height: 50%;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  background-color: white;
+  opacity: .5;
+  border-radius: 7px;
+  box-shadow: 0px 0px 5px 2px black;
+}
+
+#login-form {
+  align-self: center;
+  top: 100px;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+#username-field {
+    box-shadow: 0px 0px 1px 1px grey;
+    height: 20px;
+    background-color: white;
+    opacity: .9;
+}
+
+#password-field {
+    box-shadow: 0px 0px 1px 1px grey;
+    height: 20px;
+}
+
+#login-form-submit {
+  width: 100%;
+  padding: 7px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  background-color: #3a3a3a;
+  cursor: pointer;
+  outline: black;
+}
+
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,0">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="login-page.css">
+    <script defer src=""login-page.js></script>
+</head>
+
+<body>
+<main id="main-holder">
+    <h1 id="site-title">Route Evaluator</h1>
+    <h2 id="login-header">Login</h2>
+
+    <form id="login-form">
+        <input type="text" name="Email" id="email-field"
+               class="login=form-field" placeholder="Email">
+        <div>
+        <input type="text" name="First Name" id="first-name-field"
+               class="login=form-field" placeholder="First Name">
+        </div>
+        <div>
+        <input type="text" name="Last Name" id="last-name-field"
+               class="login=form-field" placeholder="Last Name">
+        </div>
+        <div>
+        <input type="button" value="Submit" onclick="location = 'page.html'">
+        </div>
+    </form>
+</main>
+</body>
+
+<body
+style = "background: url(https://cdn.pixabay.com/photo/2013/06/20/13/52/nasa-140304_1280.jpg)">
+</body>
+
+</html>
+
+
+
