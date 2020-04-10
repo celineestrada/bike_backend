@@ -29,16 +29,14 @@
       <script>
         function initMap() {
           var boston = {lat: 42.361, lng: -71.057};
-          var map = new google.maps.Maps(
+          var map = new google.maps.Map(
             document.getElementById('map'), {zoom: 4, center: boston});
           var marker = new google.maps.Marker({position: boston, map:map})
         }
       </script>
       <!--To-do: Add the API key soon-->
       <script async defer
-        src="https://www.google.com/maps/embed/v1/place
-            ?key=AIzaSyCqVKI7jvjCgyvTR-iDPHGoKswbtZ4dtMQ
-            &q=Eiffel+Tower,Paris+France">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaS-HNVO98Y401Em2QJ6K9H0vQPgol7VY&callback=initMap">
       </script>
   </body>
 </html>
