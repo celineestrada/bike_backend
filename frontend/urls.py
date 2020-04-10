@@ -19,7 +19,8 @@ from . import views
 
 urlpatterns = [
     # path('', views.Home.as_view()),
-    path('', views.hello_maps, name='hello_maps')
+    path('', views.hello_maps, name='hello_maps'),
+    path('login', views.login, name='login')
 ]
 
 """
