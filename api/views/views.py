@@ -4,7 +4,7 @@ from django.views import generic
 
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import Point
-from maps.models import Hospital
+from models import Hospital
 
 # Temporarily will have to hardcode a user_location variable with lon and lat
 longitude = -80.191788

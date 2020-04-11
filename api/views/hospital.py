@@ -1,11 +1,9 @@
 from rest_framework import generics
 from rest_framework.response import Response
 
-from maps.models import Hospital
+from models import Hospital
 from serializers.hospital import HospitalSerializer
 # from api.map.cluster import MapClusterer
-
-from datetime import datetime
 
 
 class HospitalList(generics.ListCreateAPIView):

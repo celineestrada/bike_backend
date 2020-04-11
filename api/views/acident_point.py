@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.response import Response
 
-from maps.models import AccidentPoint
+from models import AccidentPoint
 from serializers.accident_point import AccidentPointSerializer
 
 # from api.map.cluser import MapClusterer

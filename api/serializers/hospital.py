@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from maps.models import Hospital
+from models import Hospital
 
 
 class HospitalSerializer(ModelSerializer):

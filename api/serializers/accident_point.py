@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from maps.models import AccidentPoint
+from models import AccidentPoint
 
 
 class AccidentPointSerializer(ModelSerializer):

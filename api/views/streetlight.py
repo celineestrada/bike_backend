@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.response import Response
 
-from maps.models import Streetlight
+from models import Streetlight
 from serializers.streetlight import StreetlightSerializer
 
 

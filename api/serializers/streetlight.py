@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from maps.models import Streetlight
+from models import Streetlight
 
 
 class StreetlightSerializer(ModelSerializer):
