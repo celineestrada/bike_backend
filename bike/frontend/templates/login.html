@@ -39,24 +39,26 @@ body {
 
 #username-field {
     box-shadow: 0px 0px 1px 1px grey;
-    height: 20px;
+    height: 30px;
     background-color: white;
     opacity: .9;
 }
 
 #password-field {
     box-shadow: 0px 0px 1px 1px grey;
-    height: 20px;
+    height: 30px;
+    background-color: white;
 }
 
 #login-form-submit {
   width: 100%;
-  padding: 7px;
+  height: 30%;
+  padding: 8px;
   border: none;
   border-radius: 5px;
   color: white;
   font-weight: bold;
-  background-color: #3a3a3a;
+  background-color: black;
   cursor: pointer;
   outline: black;
 }
@@ -77,18 +79,18 @@ body {
     <h2 id="login-header">Login</h2>
 
     <form id="login-form">
-        <input type="text" name="Email" id="email-field"
+        <input type="text" name="Email" size="30" id="email-field"
                class="login=form-field" placeholder="Email">
         <div>
-        <input type="text" name="First Name" id="first-name-field"
+        <input type="text" name="First Name" size="30" width="40" id="first-name-field"
                class="login=form-field" placeholder="First Name">
         </div>
         <div>
-        <input type="text" name="Last Name" id="last-name-field"
+        <input type="text" name="Last Name" size="30" id="last-name-field"
                class="login=form-field" placeholder="Last Name">
         </div>
         <div>
-        <input type="button" value="Submit" onclick="location = 'http://127.0.0.1:8000'">
+        <input type="button" value="Submit" id="login-form-submit" onclick="location = 'http://127.0.0.1:8000'">
         </div>
     </form>
 </main>
