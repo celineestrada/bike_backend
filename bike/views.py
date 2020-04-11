@@ -1,13 +1,11 @@
 from django.shortcuts import render
-
-
-# from bike_backend.api import models
+from .api.models import AccidentPoint
 
 
 def hello_maps(request):
-    # accidents = models.AccidentPoint.objects.all()
-    # return render(request, 'index.html', {'accidents': accidents})
-    return render(request, 'index.html', {})
+    accidents = AccidentPoint.objects.all()
+    return render(request, 'index.html', {'accidents': accidents})
+    # return render(request, 'index.html', {})
 
 
 def login(request):

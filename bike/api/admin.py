@@ -1,6 +1,7 @@
 from django.contrib.gis import admin
-
-from . import models
+from .models import AccidentPoint
+from .models import Hospital
+from .models import Streetlight
 
 
 class AccidentPointAdmin(admin.OSMGeoAdmin):
@@ -8,7 +9,7 @@ class AccidentPointAdmin(admin.OSMGeoAdmin):
     list_search = ['id', 'latitude', 'longitude']
 
 
-admin.site.register(models.AccidentPoint, AccidentPointAdmin)
+admin.site.register(AccidentPoint, AccidentPointAdmin)
 
 
 class HospitalAdmin(admin.OSMGeoAdmin):
@@ -16,7 +17,7 @@ class HospitalAdmin(admin.OSMGeoAdmin):
     list_search = ['id', 'name']
 
 
-admin.site.register(models.Hospital, HospitalAdmin)
+admin.site.register(Hospital, HospitalAdmin)
 
 
 class SteetlightAdmin(admin.OSMGeoAdmin):
@@ -24,4 +25,4 @@ class SteetlightAdmin(admin.OSMGeoAdmin):
     list_search = ['id', 'latitude', 'longitude']
 
 
-admin.site.register(models.Streetlight, SteetlightAdmin)
+admin.site.register(Streetlight, SteetlightAdmin)

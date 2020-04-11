@@ -12,16 +12,7 @@
     <meta charset="utf-8">
     <title>Accident Points</title>
     <body>
-      <h1>list</h1>
-      {% if accidents %}
-      <ul>
-      {% for accident in accidents %}
-          <li>
-          {{ accident.id }}
-          </li>
-      {% endfor %}
-      </ul>
-      {% endif %}
+      <h1>Accident Points</h1>
 
       <h3>My Google Maps Demo</h3>
       <!--The div element for the map -->
@@ -34,6 +25,23 @@
           map = new google.maps.Map(
             document.getElementById('map'), {zoom: 13, center: boston});
           var marker = new google.maps.Marker({position: boston, map:map});
+          addMarkers()
+
+        }
+
+        function addMarkers() {
+          {% if accidents %}
+            {% for accident in accidents %}
+              var marker = new google.maps.Marker({
+                position: {
+                  lat: {{ accident.latitude }},
+                  lng: {{ accident.longitude }}
+                },
+                map: map
+              });
+              console.log(marker)
+            {% endfor %}
+          {% endif %}
         }
       </script>
       <script async defer
