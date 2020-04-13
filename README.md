@@ -75,3 +75,5 @@ Push your commits: git push
 ## Set Up
 1. brew install python3 (this is to get pip3)
 2. python -m pip install mysqlclient
+3. python -m pip install django-crispy-forms
+4. brew install gdal
