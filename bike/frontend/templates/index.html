@@ -14,7 +14,8 @@
   </head>
   <style>
       #map {
-        height: 150%;
+        height: 125%;
+        top: 100px;
       }
       html, body {
         height: 70%;
@@ -22,7 +23,7 @@
         margin: 0;
         padding: 0;
         position: relative;
-        top: 70px;
+        top: 20px;
         background-color: #05493C;
       }
       .controls {
@@ -91,9 +92,16 @@
       }
 
       #account-description {
-      margin-left: 550px;
-      position: relative;
-      top:-50px;
+        margin-left: 550px;
+        position: relative;
+        top:-50px;
+      }
+
+      .save {
+        width: 3em;
+        height: 2em;
+        font-size: 16px;
+
       }
 
       username = form.cleaned_data.get('username')
@@ -125,12 +133,36 @@
         <span style="color:white; font-size:250%;" id="score-value"></span>
     </div>
 
+    <div id="save-query" class="controls">
+            <form method="post">
+                {% csrf_token %}
+                <input type="text" id="name" name="name" placeholder="Route Name:"/>
+                <input readonly type="text" id="origin" name="origin" placeholder="Start Address"/>
+                <input readonly type="text" id="origin_lat" name="origin_lat" placeholder="Start Latitude"/>
+                <input readonly type="text" id="origin_lng" name="origin_lng" placeholder="Start Longitude"/>
+                <input readonly type="text" id="destination" name="destination" placeholder="End Address"/>
+                <input readonly type="text" id="destination_lat" name="destination_lat" placeholder="End Latitude"/>
+                <input readonly type="text" id="destination_lng" name="destination_lng" placeholder="End Longitude"/>
+                <input readonly type="text" id="polyline" name="polyline" placeholder="Polyline"/>
+                <input readonly type="text" id="score" name="score" placeholder="Score"/>
+                <input type="submit" value="Save"/>
+            </form>
+        </div>
+
     <div style="display: none">
         <input id="origin-input" class="controls" type="text"
             placeholder="Enter an origin location">
 
         <input id="destination-input" class="controls" type="text"
             placeholder="Enter a destination location">
+
+        <div id="mode-selector" class="controls">
+          <input type="radio" name="type" id="changemode-walking" checked="checked">
+          <label for="changemode-walking">Walking</label>
+
+          <input type="radio" name="type" id="changemode-driving">
+          <label for="changemode-driving">Driving</label>
+        </div>
 
         <div id="marker-selector" class="checkers">
             Show Accident Markers: <input type="checkbox" id="accidentCheck"
@@ -142,15 +174,6 @@
             Show Streetlight Markers: <input type="checkbox" id="streetlightCheck"
             onclick="toggleMarkerVisibility('streetlightCheck', streetlight_markers);">
         </div>
-
-
-        <div id="mode-selector" class="controls">
-          <input type="radio" name="type" id="changemode-walking" checked="checked">
-          <label for="changemode-walking">Walking</label>
-
-          <input type="radio" name="type" id="changemode-driving">
-          <label for="changemode-driving">Driving</label>
-        </div>
     </div>
 
     <div id="map"> </div>
@@ -160,7 +183,7 @@
       let accident_point_markers = [];
       let hospital_markers = [];
       let streetlight_markers = [];
-      let info_window;
+      //let info_window;
       let polyline;
       let a_marker;
       let h_marker;
@@ -168,6 +191,7 @@
       let nearby_accidents = [];
       let nearby_hospitals = [];
       let nearby_streetlights = [];
+      let score;
       function initMap() {
         let boston = {lat: 42.361, lng: -71.057};
         googleMap = new google.maps.Map(document.getElementById('map'), {
@@ -179,9 +203,9 @@
         addAccidentMarkers();
         addHospitalMarkers();
         addStreetlightMarkers();
-        info_window = new google.maps.InfoWindow({
-          size: new google.maps.Size(150, 50)
-        })
+        // info_window = new google.maps.InfoWindow({
+        //  size: new google.maps.Size(150, 50)
+        // })
         new AutocompleteDirectionsHandler(googleMap);
       }
 
@@ -274,6 +298,7 @@
               if (polyline) {
                 removeLine();
               }
+              console.log(response.routes[0].legs[0]);
               let path = google.maps.geometry.encoding.decodePath(response.routes[0].overview_polyline);
               polyline = new google.maps.Polyline({
                 path: path,
@@ -285,11 +310,11 @@
                 map: googleMap
               });
               polyline.setMap(googleMap);
-
               checkAccidentProximity();
               checkHospitalProximity();
               checkStreetlightProximity();
               updateScore();
+              updateQueryForm(response.routes[0]);
               nearby_accidents = [];
               nearby_hospitals = [];
               nearby_streetlights = [];
@@ -304,12 +329,13 @@
           position: {
             lat: {{ accident.latitude }},
             lng: {{ accident.longitude }}},
-          map: googleMap
+          map: googleMap,
+          icon: 'http://maps.google.com/mapfiles/ms/icons/pink-dot.png'
           });
-          google.maps.event.addListener(a_marker, 'click', function() {
-            info_window.setContent("Lat: " + a_marker.position.lat() + " Lng: " + a_marker.position.lng());
-            info_window.open(googleMap, a_marker);
-          });
+          //google.maps.event.addListener(a_marker, 'click', function() {
+          //  info_window.setContent("Lat: " + a_marker.position.lat() + " Lng: " + a_marker.position.lng());
+          //  info_window.open(googleMap, a_marker);
+          //});
           accident_point_markers.push(a_marker);
           {% endfor %}
         {% endif %}
@@ -325,10 +351,10 @@
           map: googleMap,
           icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
           });
-          google.maps.event.addListener(h_marker, 'click', function() {
-            info_window.setContent("Lat: " + h_marker.position.lat() + " Lng: " + h_marker.position.lng());
-            info_window.open(googleMap, h_marker);
-          });
+          //google.maps.event.addListener(h_marker, 'click', function() {
+          //  info_window.setContent("Lat: " + h_marker.position.lat() + " Lng: " + h_marker.position.lng());
+          //  info_window.open(googleMap, h_marker);
+          //});
           hospital_markers.push(h_marker);
           {% endfor %}
         {% endif %}
@@ -341,12 +367,13 @@
           position: {
             lat: {{ streetlight.latitude }},
             lng: {{ streetlight.longitude }}},
-          map: googleMap
+          map: googleMap,
+          icon: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
           });
-          google.maps.event.addListener(s_marker, 'click', function() {
-            info_window.setContent("Lat: " + s_marker.position.lat() + " Lng: " + s_marker.position.lng());
-            info_window.open(googleMap, s_marker);
-          });
+          //google.maps.event.addListener(s_marker, 'click', function() {
+          //  info_window.setContent("Lat: " + s_marker.position.lat() + " Lng: " + s_marker.position.lng());
+          //  info_window.open(googleMap, s_marker);
+          //});
           s_marker.setVisible(false);
           streetlight_markers.push(s_marker);
           {% endfor %}
@@ -408,7 +435,7 @@
       }
 
       function updateScore() {
-        let score = 100.00;
+        score = 100.00;
         nearby_accidents.forEach(accident => {
           score -= 10.0;
         });
@@ -420,6 +447,20 @@
         });
         document.getElementById('score-value').innerHTML = score.toFixed(2);
       }
+
+      function updateQueryForm(route) {
+        document.getElementById('name').value =
+                route.legs[0].start_address + " to " + route.legs[0].end_address;
+        document.getElementById('origin').value = route.legs[0].start_address;
+        document.getElementById('origin_lat').value = route.legs[0].start_location.lat();
+        document.getElementById('origin_lng').value = route.legs[0].start_location.lng();
+        document.getElementById('destination').value = route.legs[0].end_address;
+        document.getElementById('destination_lat').value = route.legs[0].end_location.lat();
+        document.getElementById('destination_lng').value = route.legs[0].end_location.lng();
+        document.getElementById('polyline').value = route.overview_polyline;
+        document.getElementById('score').value = score.toFixed(2);
+      }
+
       </script>
       <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaS-HNVO98Y401Em2QJ6K9H0vQPgol7VY&callback=initMap&libraries=geometry,places">
