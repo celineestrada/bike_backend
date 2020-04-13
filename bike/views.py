@@ -36,7 +36,6 @@ def hello_maps(request):
             except:
                 print("query not saved")
             # To-do: change redirect!
-            return redirect('')
     else:
         print("hit else")
         form = MapQueryForm()
