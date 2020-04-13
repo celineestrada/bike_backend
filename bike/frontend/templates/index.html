@@ -14,8 +14,8 @@
   </head>
   <style>
       #map {
-        height: 125%;
-        top: 100px;
+        height: 150%;
+        top: 50px;
       }
       html, body {
         height: 70%;
@@ -23,7 +23,7 @@
         margin: 0;
         padding: 0;
         position: relative;
-        top: 20px;
+        top: 40px;
         background-color: #05493C;
       }
       .controls {
@@ -82,7 +82,7 @@
         color: #fff;
         background-color: #4d90fe;
         margin-left: 12px;
-        padding: 10px 11px 0px 11px;
+        padding: 6px 11px 0px 11px;
       }
 
       #marker-selector label {
@@ -101,7 +101,6 @@
         width: 3em;
         height: 2em;
         font-size: 16px;
-
       }
 
       username = form.cleaned_data.get('username')
@@ -135,18 +134,18 @@
         <span style="color:white; font-size:250%;" id="score-value"></span>
     </div>
 
-    <div id="save-query" class="controls">
+    <div id="save-query">
             <form method="post">
                 {% csrf_token %}
                 <input type="text" id="name" name="name" placeholder="Route Name:"/>
-                <input readonly type="text" id="origin" name="origin" placeholder="Start Address"/>
-                <input readonly type="text" id="origin_lat" name="origin_lat" placeholder="Start Latitude"/>
-                <input readonly type="text" id="origin_lng" name="origin_lng" placeholder="Start Longitude"/>
-                <input readonly type="text" id="destination" name="destination" placeholder="End Address"/>
-                <input readonly type="text" id="destination_lat" name="destination_lat" placeholder="End Latitude"/>
-                <input readonly type="text" id="destination_lng" name="destination_lng" placeholder="End Longitude"/>
-                <input readonly type="text" id="polyline" name="polyline" placeholder="Polyline"/>
-                <input readonly type="text" id="score" name="score" placeholder="Score"/>
+                <input type="hidden" id="origin" name="origin" placeholder="Start Address"/>
+                <input type="hidden" id="origin_lat" name="origin_lat" placeholder="Start Latitude"/>
+                <input type="hidden" id="origin_lng" name="origin_lng" placeholder="Start Longitude"/>
+                <input type="hidden" id="destination" name="destination" placeholder="End Address"/>
+                <input type="hidden" id="destination_lat" name="destination_lat" placeholder="End Latitude"/>
+                <input type="hidden" id="destination_lng" name="destination_lng" placeholder="End Longitude"/>
+                <input type="hidden" id="polyline" name="polyline" placeholder="Polyline"/>
+                <input type="hidden" id="score" name="score" placeholder="Score"/>
                 <input type="submit" value="Save"/>
             </form>
         </div>
@@ -174,7 +173,9 @@
             onclick="toggleMarkerVisibility('hospitalCheck', hospital_markers);"
             checked="checked"><br/>
             Show Streetlight Markers: <input type="checkbox" id="streetlightCheck"
-            onclick="toggleMarkerVisibility('streetlightCheck', streetlight_markers);">
+            onclick="toggleMarkerVisibility('streetlightCheck', streetlight_markers);"><br/>
+            Show Route Relevant Markers: <input type="checkbox" id="routeCheck"
+            onclick="toggleRouteMarkerVisibility();">
         </div>
     </div>
 
@@ -316,6 +317,11 @@
               checkHospitalProximity();
               checkStreetlightProximity();
               updateScore();
+              if (document.getElementById("routeCheck").checked == true) {
+                accidentOnRouteMarkerVisibility(true);
+                hospitalOnRouteMarkerVisibility(true);
+                streetlightOnRouteMarkerVisibility(true);
+              }
               updateQueryForm(response.routes[0]);
               nearby_accidents = [];
               nearby_hospitals = [];
@@ -400,11 +406,17 @@
         });
       }
 
+      function toggleRouteMarkerVisibility() {
+        let visible = document.getElementById("routeCheck").checked ? true : false;
+        accidentOnRouteMarkerVisibility(visible);
+        hospitalOnRouteMarkerVisibility(visible);
+        streetlightOnRouteMarkerVisibility(visible);
+      }
+
       function checkAccidentProximity() {
         accident_point_markers.forEach(marker => {
           if(google.maps.geometry.poly.isLocationOnEdge(marker.position, polyline, 5e-5)) {
             nearby_accidents.push(marker);
-            marker.setVisible(true);
           }
           else {
             // console.log(getDistance(marker.position, response.routes[0].legs[0].start_location));
@@ -416,7 +428,6 @@
         hospital_markers.forEach(marker => {
           if(google.maps.geometry.poly.isLocationOnEdge(marker.position, polyline, 10e-4)) {
             nearby_hospitals.push(marker);
-            marker.setVisible(true);
           }
           else {
             // console.log(getDistance(marker.position, response.routes[0].legs[0].start_location));
@@ -428,10 +439,48 @@
         streetlight_markers.forEach(marker => {
           if(google.maps.geometry.poly.isLocationOnEdge(marker.position, polyline, 10e-5)) {
             nearby_streetlights.push(marker);
-            //marker.setVisible(true);
           }
           else {
             // console.log(getDistance(marker.position, response.routes[0].legs[0].start_location));
+          }
+        });
+      }
+
+      function accidentOnRouteMarkerVisibility(visible) {
+        accident_point_markers.forEach(marker => {
+          if(google.maps.geometry.poly.isLocationOnEdge(marker.position, polyline, 5e-5)) {
+            marker.setVisible(visible);
+          }
+          else {
+            if(visible == true) {
+              marker.setVisible(false);
+            }
+          }
+        });
+      }
+
+      function hospitalOnRouteMarkerVisibility(visible) {
+        hospital_markers.forEach(marker => {
+          if(google.maps.geometry.poly.isLocationOnEdge(marker.position, polyline, 10e-4)) {
+            marker.setVisible(visible);
+          }
+          else {
+            if(visible == true) {
+              marker.setVisible(false);
+            }
+          }
+        });
+      }
+
+      function streetlightOnRouteMarkerVisibility(visible) {
+        streetlight_markers.forEach(marker => {
+          if(google.maps.geometry.poly.isLocationOnEdge(marker.position, polyline, 10e-5)) {
+            marker.setVisible(visible);
+          }
+          else {
+            if(visible == true) {
+              marker.setVisible(false);
+            }
           }
         });
       }
@@ -447,6 +496,10 @@
         nearby_streetlights.forEach(streetlight => {
           score += .01;
         });
+
+        if (score > 100) {
+          score == 100.00;
+        }
         document.getElementById('score-value').innerHTML = score.toFixed(2);
       }
 
