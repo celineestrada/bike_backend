@@ -3,12 +3,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Route Evaluation</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<!-- Required meta tags -->
     <meta charset="utf-8">
-    <style>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Route Evaluator!</title>
+  </head>
+  <style>
       #map {
-        height: 100%;
+        height: 150%;
       }
       html, body {
         height: 70%;
@@ -17,6 +23,7 @@
         padding: 0;
         position: relative;
         top: 70px;
+        background-color: #05493C;
       }
       .controls {
         margin-top: 10px;
@@ -25,7 +32,7 @@
         box-sizing: border-box;
         -moz-box-sizing: border-box;
         height: 32px;
-        outline: none;
+        outline: black;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
       }
       .checkers {
@@ -41,7 +48,7 @@
 
       #origin-input,
       #destination-input {
-        background-color: #fff;
+        background-color: white;
         font-family: Roboto;
         font-size: 15px;
         font-weight: 300;
@@ -61,7 +68,7 @@
         color: #fff;
         background-color: #4d90fe;
         margin-left: 12px;
-        padding: 5px 11px 0px 11px;
+        padding: 7px 11px 0px 11px;
       }
 
       #mode-selector label {
@@ -74,7 +81,7 @@
         color: #fff;
         background-color: #4d90fe;
         margin-left: 12px;
-        padding: 5px 11px 0px 11px;
+        padding: 10px 11px 0px 11px;
       }
 
       #marker-selector label {
@@ -83,9 +90,41 @@
         font-weight: 300;
       }
 
+      #account-description {
+      margin-left: 550px;
+      position: relative;
+      top:-50px;
+      }
+
+      username = form.cleaned_data.get('username')
     </style>
-  </head>
   <body>
+      <header class="site-header">
+  <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+    <div class="container">
+      <a class="navbar-brand mr-4" href="/">Route Evaluator</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarToggle">
+        <div class="navbar-nav mr-auto">
+        </div>
+        <!-- Navbar Right Side -->
+           <b style="color: white"> {{ user.username }}</b>
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+            <a  class="nav-item nav-link" href="{% url 'confirm' %}">Delete Account</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+    <div id="score-title">
+        <span style="color:white; font-size:250%;">Your Score: </span>
+        <span style="color:white; font-size:250%;" id="score-value"></span>
+    </div>
+
     <div style="display: none">
         <input id="origin-input" class="controls" type="text"
             placeholder="Enter an origin location">
@@ -101,8 +140,7 @@
             onclick="toggleMarkerVisibility('hospitalCheck', hospital_markers);"
             checked="checked"><br/>
             Show Streetlight Markers: <input type="checkbox" id="streetlightCheck"
-            onclick="toggleMarkerVisibility('streetlightCheck', streetlight_markers);"
-            checked="unchecked">
+            onclick="toggleMarkerVisibility('streetlightCheck', streetlight_markers);">
         </div>
 
 
@@ -115,7 +153,7 @@
         </div>
     </div>
 
-    <div id="map"></div>
+    <div id="map"> </div>
 
     <script>
       let googleMap;
@@ -127,11 +165,14 @@
       let a_marker;
       let h_marker;
       let s_marker;
+      let nearby_accidents = [];
+      let nearby_hospitals = [];
+      let nearby_streetlights = [];
       function initMap() {
         let boston = {lat: 42.361, lng: -71.057};
         googleMap = new google.maps.Map(document.getElementById('map'), {
           mapTypeControl: false,
-          center: {lat: 42.361, lng: -71.057},
+          center: boston,
           zoom: 13
         });
 
@@ -237,16 +278,21 @@
               polyline = new google.maps.Polyline({
                 path: path,
                 strokeColor: '#FF0000',
-                strokeOpacity: 0.8,
+                strokeOpacity: 0,
                 strokeWeight: 2,
                 fillColor: '#FF0000',
-                fillOpacity: 0.35,
+                fillOpacity: 0,
                 map: googleMap
               });
               polyline.setMap(googleMap);
 
               checkAccidentProximity();
               checkHospitalProximity();
+              checkStreetlightProximity();
+              updateScore();
+              nearby_accidents = [];
+              nearby_hospitals = [];
+              nearby_streetlights = [];
             });
       };
 
@@ -327,8 +373,9 @@
 
       function checkAccidentProximity() {
         accident_point_markers.forEach(marker => {
-          if(google.maps.geometry.poly.isLocationOnEdge(marker.position, polyline, 10e-5)) {
-            console.log("accident point marker is on the edge!");
+          if(google.maps.geometry.poly.isLocationOnEdge(marker.position, polyline, 5e-5)) {
+            nearby_accidents.push(marker);
+            marker.setVisible(true);
           }
           else {
             // console.log(getDistance(marker.position, response.routes[0].legs[0].start_location));
@@ -339,7 +386,8 @@
       function checkHospitalProximity() {
         hospital_markers.forEach(marker => {
           if(google.maps.geometry.poly.isLocationOnEdge(marker.position, polyline, 10e-4)) {
-            console.log("hospital marker is on the edge!");
+            nearby_hospitals.push(marker);
+            marker.setVisible(true);
           }
           else {
             // console.log(getDistance(marker.position, response.routes[0].legs[0].start_location));
@@ -349,17 +397,36 @@
 
       function checkStreetlightProximity() {
         streetlight_markers.forEach(marker => {
-          if(google.maps.geometry.poly.isLocationOnEdge(marker.position, polyline, 10e-4)) {
-            console.log("streetlight marker is on the edge!");
+          if(google.maps.geometry.poly.isLocationOnEdge(marker.position, polyline, 10e-5)) {
+            nearby_streetlights.push(marker);
+            //marker.setVisible(true);
           }
           else {
             // console.log(getDistance(marker.position, response.routes[0].legs[0].start_location));
           }
         });
       }
-    </script>
-    <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaS-HNVO98Y401Em2QJ6K9H0vQPgol7VY&callback=initMap&libraries=geometry,places">
-    </script>
+
+      function updateScore() {
+        let score = 100.00;
+        nearby_accidents.forEach(accident => {
+          score -= 10.0;
+        });
+        nearby_hospitals.forEach(hospitals => {
+          score += 3.0;
+        });
+        nearby_streetlights.forEach(streetlight => {
+          score += .01;
+        });
+        document.getElementById('score-value').innerHTML = score.toFixed(2);
+      }
+      </script>
+      <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaS-HNVO98Y401Em2QJ6K9H0vQPgol7VY&callback=initMap&libraries=geometry,places">
+      </script>
+      <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
   </body>
 </html>
