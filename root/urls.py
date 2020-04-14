@@ -19,7 +19,6 @@ from django.contrib.auth import views as auth_views
 from users import views as user_views
 
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', user_views.register, name='register'),
@@ -29,8 +28,7 @@ urlpatterns = [
     path('confirm/', auth_views.LoginView.as_view(template_name='users/confirm.html'), name='confirm'),
     path('update/', user_views.update, name='update'),
     path('delete/<str:username>/', user_views.delete, name='delete'),
-    path('', include('bike.urls')),
+    path('', include('bike.urls'))
 ]
 
-# <app>/<model>_<viewtype>,html
 

@@ -1,12 +1,7 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from .forms import UserRegisterForm, UserUpdateForm, MapQueryForm
+from django.shortcuts import render, redirect
+from .forms import UserRegisterForm, UserUpdateForm
 from django.contrib import messages
 from django.contrib.auth.models import User
-
-
-
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-
 
 
 def register(request):
@@ -27,20 +22,14 @@ def delete(request, username):
     user.delete()
     return redirect('deleted')
 
+
 def update(request):
     if request.method == 'POST':
-     u_form = UserUpdateForm(request.POST, instance=request.user)
-     if u_form.is_valid():
-         u_form.save()
-         messages.success(request, f'Your account has been updated')
-         return redirect('login')
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        if u_form.is_valid():
+            u_form.save()
+            messages.success(request, f'Your account has been updated')
+            return redirect('login')
     else:
         u_form = UserUpdateForm(instance=request.user)
     return render(request, 'users/update.html', {'u_form': u_form})
-
-
-
-
-
-
-

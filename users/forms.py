@@ -1,8 +1,7 @@
 from django import forms
-from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.db import models
+
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
@@ -18,13 +17,15 @@ class UserRegisterForm(UserCreationForm):
                   'password1',
                   'password2']
 
+
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
 
     class Meta:
         model = User
-        fields =['email',
-                 'username']
+        fields = ['email',
+                  'username']
+
 
 class MapQueryForm(forms.Form):
     id = forms.IntegerField(required=False, widget=forms.HiddenInput())
@@ -37,4 +38,3 @@ class MapQueryForm(forms.Form):
     polyline = forms.CharField(max_length=510, required=True)
     score = forms.FloatField(required=True),
     name = forms.CharField(max_length=255, required=True)
-
