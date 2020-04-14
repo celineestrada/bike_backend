@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Hospital
 from .models import Streetlight
 from .models import MapQueries
+from .models import PolyAccidentProximity
 from .forms import MapQueryForm
 
 
@@ -30,9 +31,17 @@ def hello_maps(request):
             new_map_query.polyline = request.POST.get("polyline")
             new_map_query.score = request.POST.get("score")
             new_map_query.author = request.user
+
             try:
                 new_map_query.save()
                 print('query saved')
+
+                for accident in accidents:
+                    new_accident_proximity = PolyAccidentProximity()
+                    new_accident_proximity.query = new_map_query
+                    new_accident_proximity.accident = accident
+                    #new_accident_proximity.difference = calculateDistance(accident, )
+
             except:
                 print("query not saved")
             # To-do: change redirect!

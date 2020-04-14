@@ -12,3 +12,7 @@ class MapQueryForm(forms.Form):
     polyline = forms.CharField(max_length=510, required=True)
     id = forms.IntegerField(required=False, widget=forms.HiddenInput())
     score = forms.FloatField(required=True)
+
+
+class MarkProximityForm(forms.Form):
+    difference = forms.DecimalField(decimal_places=2, required=True)
