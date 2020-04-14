@@ -22,7 +22,7 @@ from .views import get_queries
 
 urlpatterns = [
     # path('', views.Home.as_view()),
-    path('maps', views.hello_maps, name='hello_maps'),
+    path('maps/', views.hello_maps, name='hello_maps'),
     path('login/', views.login, name='login'),
     path('queries/<int:id>/', get_queries, name='queries'),
 
