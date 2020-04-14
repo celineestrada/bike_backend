@@ -15,12 +15,18 @@ Including another URLconf
 """
 from django.urls import path
 from . import views
+from .views import get_queries
+
+
 
 
 urlpatterns = [
     # path('', views.Home.as_view()),
     path('', views.hello_maps, name='hello_maps'),
     path('login/', views.login, name='login'),
+    path('queries/<int:id>/', get_queries, name='queries'),
+
+
 
 ]
 
