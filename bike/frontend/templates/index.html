@@ -103,6 +103,11 @@
         font-size: 16px;
       }
 
+      #score {
+        padding: 0px 0px 0px 10px;
+        margin-left: 12px;
+      }
+
       username = form.cleaned_data.get('username')
     </style>
   <body>
@@ -127,13 +132,23 @@
     </div>
   </nav>
 </header>
-
-    <div id="score-title">
+      <!-- Summary
+    <div id="marker-history" class="">
+        <span style="color:white; font-size:100%;">You've hit: </span>
+        <span style="color:white; font-size:100%;" id="accident-count"></span>
+        <span style="color:white; font-size:100%;"> previous fatal accidents , </span>
+        <span style="color:white; font-size:100%;" id="hospital-count"></span>
+        <span style="color:white; font-size:100%;"> nearby hospitals, and </span>
+        <span style="color:white; font-size:100%;" id="streetlight-count"></span>
+        <span style="color:white; font-size:100%;">  streetlights. </span>
+    </div>
+    -->
+    <div id="score-title" class="score">
         <span style="color:white; font-size:250%;">Your Score: </span>
         <span style="color:white; font-size:250%;" id="score-value"></span>
     </div>
 
-    <div id="save-query">
+    <div id="save-query" class="score">
             <form method="post">
                 {% csrf_token %}
                 <input type="text" id="name" name="name" placeholder="Route Name:"/>
@@ -145,6 +160,7 @@
                 <input type="hidden" id="destination_lng" name="destination_lng" placeholder="End Longitude"/>
                 <input type="hidden" id="polyline" name="polyline" placeholder="Polyline"/>
                 <input type="hidden" id="score" name="score" placeholder="Score"/>
+                <input type="hidden" id="accidents" name="accidents" placeholder="accidents"/>
                 <input type="submit" value="Save"/>
             </form>
         </div>
@@ -417,9 +433,6 @@
           if(google.maps.geometry.poly.isLocationOnEdge(marker.position, polyline, 5e-5)) {
             nearby_accidents.push(marker);
           }
-          else {
-            // console.log(getDistance(marker.position, response.routes[0].legs[0].start_location));
-          }
         });
       }
 
@@ -428,9 +441,6 @@
           if(google.maps.geometry.poly.isLocationOnEdge(marker.position, polyline, 10e-4)) {
             nearby_hospitals.push(marker);
           }
-          else {
-            // console.log(getDistance(marker.position, response.routes[0].legs[0].start_location));
-          }
         });
       }
 
@@ -438,9 +448,6 @@
         streetlight_markers.forEach(marker => {
           if(google.maps.geometry.poly.isLocationOnEdge(marker.position, polyline, 10e-5)) {
             nearby_streetlights.push(marker);
-          }
-          else {
-            // console.log(getDistance(marker.position, response.routes[0].legs[0].start_location));
           }
         });
       }
@@ -499,7 +506,10 @@
         if (score > 100) {
           score == 100.00;
         }
-        document.getElementById('score-value').innerHTML = score.toFixed(2);
+        // document.getElementById('score-value').innerHTML = score.toFixed(2);
+        // document.getElementById('accident-count').innerHTML = nearby_accidents.length;
+        // document.getElementById('hospital-count').innerHTML = nearby_hospitals.length;
+        // document.getElementById('streetlight-count').innerHTML = nearby_streetlights.length;
       }
 
       function updateQueryForm(route) {
