@@ -12,3 +12,6 @@ class MapQueryForm(forms.Form):
     polyline = forms.CharField(max_length=510, required=True)
     score = forms.FloatField(required=True),
     name = forms.CharField(max_length=255, required=True)
+    nearby_accidents = forms.CharField(max_length=510, required=False)
+    nearby_hospitals = forms.CharField(max_length=510, required=False)
+    nearby_streetlights = forms.CharField(max_length=510, required=False)
