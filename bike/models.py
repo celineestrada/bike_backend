@@ -107,7 +107,6 @@ class PolyAccidentProximity(models.Model):
 
     accident = models.ForeignKey(AccidentPoint, default=None, on_delete=models.CASCADE)
     query = models.ForeignKey(MapQueries, default=None, on_delete=models.CASCADE)
-    difference = models.FloatField(null=False)
 
     def __str__(self):
         return str(self.id)
@@ -119,7 +118,6 @@ class PolyHospitalProximity(models.Model):
 
     hospital = models.ForeignKey(Hospital, default=None, on_delete=models.CASCADE)
     query = models.ForeignKey(MapQueries, default=None, on_delete=models.CASCADE)
-    difference = models.FloatField(null=False)
 
     def __str__(self):
         return str(self.id)
@@ -131,7 +129,6 @@ class Poly_Streetlight_Proximity(models.Model):
 
     streetlight = models.ForeignKey(Streetlight, default=None, on_delete=models.CASCADE)
     query = models.ForeignKey(MapQueries, default=None, on_delete=models.CASCADE)
-    difference = models.FloatField(null=False)
 
     def __str__(self):
         return str(self.id)

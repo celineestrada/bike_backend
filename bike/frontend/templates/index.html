@@ -161,7 +161,9 @@
                 <input type="hidden" id="destination_lng" name="destination_lng" placeholder="End Longitude"/>
                 <input type="hidden" id="polyline" name="polyline" placeholder="Polyline"/>
                 <input type="hidden" id="score" name="score" placeholder="Score"/>
-                <input type="hidden" id="accidents" name="accidents" placeholder="accidents"/>
+                <input type="hidden" id="nearby_accidents" name="nearby_accidents" placeholder="nearby_accidents"/>
+                <input type="hidden" id="nearby_hospitals" name="nearby_hospitals" placeholder="nearby_hospitals"/>
+                <input type="hidden" id="nearby_streetlights" name="nearby_streetlights" placeholder="nearby_streetlights"/>
                 <input type="submit" value="Save"/>
             </form>
         </div>
@@ -317,7 +319,6 @@
               if (polyline) {
                 removeLine();
               }
-              console.log(response.routes[0].legs[0]);
               let path = google.maps.geometry.encoding.decodePath(response.routes[0].overview_polyline);
               polyline = new google.maps.Polyline({
                 path: path,
@@ -504,10 +505,10 @@
           score += .01;
         });
 
-        if (score > 100) {
-          score == 100.00;
+        if (score > 100.0) {
+          score = 100.00;
         }
-        // document.getElementById('score-value').innerHTML = score.toFixed(2);
+        document.getElementById('score-value').innerHTML = score.toFixed(2);
         // document.getElementById('accident-count').innerHTML = nearby_accidents.length;
         // document.getElementById('hospital-count').innerHTML = nearby_hospitals.length;
         // document.getElementById('streetlight-count').innerHTML = nearby_streetlights.length;
@@ -524,6 +525,27 @@
         document.getElementById('destination_lng').value = route.legs[0].end_location.lng();
         document.getElementById('polyline').value = route.overview_polyline;
         document.getElementById('score').value = score.toFixed(2);
+        let close_accident_str = '';
+        for(i=0; i < accident_point_markers.length; i++) {
+          if(google.maps.geometry.poly.isLocationOnEdge(accident_point_markers[i].position, polyline, 5e-5)) {
+            close_accident_str += i + " "
+          }
+        }
+        document.getElementById('nearby_accidents').value = close_accident_str;
+        let close_hospital_str = '';
+        for(i=0; i < hospital_markers.length; i++) {
+          if(google.maps.geometry.poly.isLocationOnEdge(hospital_markers[i].position, polyline, 10e-4)) {
+            close_hospital_str += i + " "
+          }
+        }
+        document.getElementById('nearby_hospitals').value = close_hospital_str;
+        let close_streetlight_str = '';
+        for(i=0; i < streetlight_markers.length; i++) {
+          if(google.maps.geometry.poly.isLocationOnEdge(streetlight_markers[i].position, polyline, 5e-5)) {
+            close_streetlight_str += i + " "
+          }
+        }
+        document.getElementById('nearby_streetlights').value = close_streetlight_str;
       }
 
       </script>
