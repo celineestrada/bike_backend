@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import AccidentPoint
 from django.contrib.auth.forms import UserCreationForm
 from .models import Hospital
 from .models import Streetlight
 from .models import MapQueries
 from .forms import MapQueryForm
+from django.views.generic import TemplateView, ListView
 
 
 def hello_maps(request):
@@ -49,6 +50,12 @@ def hello_maps(request):
 def login(request):
     form = UserCreationForm()
     return render(request, 'login.html', {"form": form})
+
+
+
+def get_queries(request, id):
+        query = MapQueries.objects.filter(author_id = id)
+        return render(request, 'users/queries.html', {'query': query})
 
     # def register(request):
     #     if request.method == 'POST':

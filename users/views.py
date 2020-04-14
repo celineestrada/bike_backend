@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import UserRegisterForm, UserUpdateForm
+from .forms import UserRegisterForm, UserUpdateForm, MapQueryForm
 from django.contrib import messages
 from django.contrib.auth.models import User
+
+
+
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
@@ -34,6 +37,9 @@ def update(request):
     else:
         u_form = UserUpdateForm(instance=request.user)
     return render(request, 'users/update.html', {'u_form': u_form})
+
+
+
 
 
 

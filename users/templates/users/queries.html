@@ -90,17 +90,21 @@ body {
     <title>Confirmation</title>
 </head>
 
+{% load crispy_forms_tags %}
 <body>
 <main id="main-holder">
-    <h3 id="site-title">Are you sure you want to delete your account?</h3>
+    <h3 id="site-title"> Your Map Queries</h3>
+    {% for MapQueries in query %}
+    <b>{{ MapQueries.name }}</b>
+    Origin:   {{ MapQueries.origin }}<br>
+    Destination:   {{ MapQueries.destination }}<br>
+    Score:   {{ MapQueries.score }}<br>
+    {% endfor %}
 
         <div class="border-top pt-3">
             <small class="text-muted">
-<form method="POST">
-    {% csrf_token %}
-                    <a class="btn btn-outline-primary "  href="{% url 'login' %}" id="cancel">Cancel</a>
-                <button formaction="{% url 'delete' user.username %}" class="btn btn-outline-danger " type="submit"  href="{% url 'deleted' %}" id="delete">Delete</button>
-                </form>
+
+                    <a class="btn btn-outline-primary "  href="{% url 'hello_maps' %}" id="cancel">Go Back</a>
             </small>
         </div>
 </main>
