@@ -12,35 +12,53 @@
 ## Getting Started
 ---
 
-To activate your virtual enviornment: source env/bin/activate
+To view our web application code, we suggest downloading the Python IDE Pycharm: https://www.jetbrains.com/pycharm/download/#section=mac
 
-To fully use all features of GeoDjango, install the following open-source geospatial libraries:
-1. GEOS (Geometry Engine Open Source) - C++ port of the Java Topology Suite that implements the OCG Simple Feature for SQL Specification
-2. GDAL (Deospatial Data Abstraction Library) - an open-source library for working with raster and vector geospatial data formats
-3. PROJ.4 (Cartographic Projects library) - an open-source GIS library for easily working with spatial reference systems and projections
-4. GeoIP - A library that helps users find geographical information based on an IP address.
+For this project, we used Python 3 and the Python Package Installer(PIP). 
 
-$ brew install postgresql
-$ brew install postgis
-$ brew install gdal
-$ brew install libgeoip
+For Macs (preferable):
+Homebrew: ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" 
+Install Python: brew install python3
+Usually python3 comes pre-installed with pip, but if you get an error, run: sudo easy_install pip
 
-Add to your .bash_profile. 
+Virtual Environment: sudo pip3 install virtualenv 
+Setup your virtual environment:
+cd into the bike_backend folder
+virtualenv venv
+Activate your virtual environment: source venv/bin/activate
+(To deactivate your virtual environment): deactivate
 
-export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/X.Y/bin
-    Where X.Y is your current PostgreSQL version
+Required Python Modules:
+django : python -m pip install django or pip install django
+mysqlclient: python -m pip install mysqlclient or pip install mysqlclient
+django-crispy-forms: python -m pip install django-crispy-forms or pip install django-crispy-forms 
+gdal: brew install gdal (optional)
 
-export PATH=/Library/Frameworks/UnixImageIO.framework/Programs:$PATH
-export PATH=/Library/Frameworks/PROJ.framework/Programs:$PATH
-export PATH=/Library/Frameworks/GEOS.framework/Programs:$PATH
-export PATH=/Library/Frameworks/SQLite3.framework/Programs:$PATH
-export PATH=/Library/Frameworks/GDAL.framework/Programs:$PATH
-export PATH=/usr/local/pgsql/bin:$PATH
+For Linux (in this order):
+Check if python is installed: python3 --version. If not, install latest version with sudo apt-get install python3.8
+pip3: sudo-apt install python3-pip
+Virtual Environment: sudo pip3 install virtualenv 
+Setup your virtual environment:
+Cd into the bike_backend folder
+virtualenv venv
+Activate your virtual environment: source venv/bin/activate
+(To deactivate your virtual environment): deactivate
 
-Thanks to Djangos Object Relational Mapping feature (ORM), we dont need SQL to create the databases. Just use python's migrate f=
+Required Python Modules:
+django: pip3 install django
+mysqlclient: sudo apt install default-libmysqlclient-dev and pip3 install mysqlclient
+django-crispy-forms: pip3 install django-crispy-forms
 
-$ python manage.py makemigrations
-$ python manage.py migrate
+Setup Database:
+Download MySQLWorkbench: https://www.mysql.com/downloads/
+In the workbench, create a new connection with the default settings. Make note of the password you’ve created for this database though.
+Open the connection and import the schema dump.
+In root/settings.py, find the database object (around line 81) and change the set password to the password you picked for your mysql connection. Ensure that the other fields correctly match up with your connection as well.
+
+Run the program:
+In your PyCharm terminal after changing directories to the bike folder: python manage.py runserver
+The server will be running on http://127.0.0.1:8000/
+
 
 ## Definitions
 ---
