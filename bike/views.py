@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.db import connection
+from django.shortcuts import render
 from .models import AccidentPoint
 from django.contrib.auth.forms import UserCreationForm
 from .models import Hospital
@@ -7,8 +8,8 @@ from .models import MapQueries
 from .models import PolyAccidentProximity
 from .models import PolyHospitalProximity
 from .models import Poly_Streetlight_Proximity
+from .models import MarkerCount
 from .forms import MapQueryForm
-from django.views.generic import TemplateView, ListView
 
 
 def hello_maps(request):
@@ -79,6 +80,23 @@ def hello_maps(request):
                     print('streetlight proximity saved')
                 except:
                     print('streetlight proximity not saved')
+
+            cursor = connection.cursor()
+            print(new_map_query.id)
+            cursor.callproc('sp_count_nearby_markers', [new_map_query.id, ])
+            results = cursor.fetchall()
+            for row in results:
+                count = MarkerCount()
+                count.query = new_map_query
+                count.accidentCount = row[0]
+                count.hospitalCount = row[1]
+                count.streetlightCount = row[2]
+
+                try:
+                    count.save()
+                    print('new count saved')
+                except:
+                    print('new count not saved')
         else:
             print("form not valid")
     else:
@@ -98,17 +116,5 @@ def login(request):
 
 def get_queries(request, id):
     query = MapQueries.objects.filter(author_id=id)
+
     return render(request, 'users/queries.html', {'query': query})
-
-# def register(request):
-#     if request.method == 'POST':
-#         form = UserRegisterForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             username = form.cleaned_data.get('username')
-#             messages.success(request, f'Your account has been created! You are now able to login!')
-#             return redirect('login')
-
-# def show_markers(request):
-#    accidents = AccidentPoint.objects.all()
-#    return render(request, 'index.html', {'accidents': accidents})

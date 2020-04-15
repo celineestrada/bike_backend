@@ -102,3 +102,13 @@ class Poly_Streetlight_Proximity(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+
+class MarkerCount(models.Model):
+    class Meta:
+        app_label = 'bike'
+
+    query = models.ForeignKey(MapQueries, default=None, on_delete=models.CASCADE)
+    accidentCount = models.IntegerField(null=False)
+    hospitalCount = models.IntegerField(null=False)
+    streetlightCount = models.IntegerField(null=False)
